@@ -1,6 +1,6 @@
 import React from "react";
-import LoginForm from "./_components/loginForm";
 import Link from "next/link";
+import ResetPasswordForm from "./_components/resetPasswordForm";
 
 export default function LoginPage() {
   return (
@@ -11,7 +11,7 @@ export default function LoginPage() {
       <h1 className="text-[36px] font-bold text-secondary font-urbanist leading-[36px] mb-[36px]">
         Sign in Your Account
       </h1>
-      <LoginForm />
+      <ResetPasswordForm />
       <Link
         href="/forgot-password"
         className="leading-6 font-bold text-[#262621] mt-[18px]"

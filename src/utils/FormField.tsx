@@ -6,12 +6,18 @@ export default function FormField({
   placeHolder,
   icon,
   type = "text",
+  inputCls,
+  innerInputCls,
+  registerLogic,
 }: {
-  name: string;
-  title: string;
-  placeHolder: string;
-  icon: React.ReactNode[];
+  name?: string;
+  title?: string;
+  placeHolder?: string;
+  icon?: React.ReactNode[];
   type: string;
+  inputCls?: string;
+  innerInputCls?: string;
+  registerLogic?: object;
 }) {
   const {
     register,
@@ -24,19 +30,32 @@ export default function FormField({
     }
   };
   return (
-    <main className="w-[422px] flex flex-col gap-[6px]">
-      <label htmlFor={name} className="text-[16px] font-bold ">
-        {title}
-      </label>
-      <section className="flex justify-between items-center p-5 rounded-2xl gap-3 bg-[#efef56]">
-        <div className="flex gap-3">
+    <main className={title ? "flex flex-col gap-[6px]" : ""}>
+      {title && (
+        <label htmlFor={name} className="text-[16px] font-bold ">
+          {title}
+        </label>
+      )}
+
+      <section
+        className={
+          inputCls
+            ? inputCls
+            : "flex justify-between items-center p-5 rounded-2xl gap-3 bg-[#EFEFEF]"
+        }
+      >
+        <div className={icon ? "flex gap-3" : ""}>
           {icon?.[0] && <div className="">{icon?.[0]}</div>}
           <input
             type={inputType}
             id={name}
-            {...register(name)}
+            {...(register(name!), registerLogic)}
             placeholder={placeHolder}
-            className="text-[14px] font-medium outline-none w-"
+            className={
+              innerInputCls
+                ? innerInputCls
+                : "text-[14px] font-medium outline-none "
+            }
           />
         </div>
         {type === "password" && icon?.[1] && (
@@ -45,8 +64,8 @@ export default function FormField({
           </button>
         )}
       </section>
-      {errors[name] && (
-        <p className="">{`(${errors[name]?.message as string})`}</p>
+      {errors[name!] && (
+        <p className="">{`(${errors[name!]?.message as string})`}</p>
       )}
     </main>
   );

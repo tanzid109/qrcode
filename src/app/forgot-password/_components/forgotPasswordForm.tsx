@@ -1,6 +1,7 @@
 "use client";
 import FormField from "@/utils/FormField";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -17,39 +18,21 @@ const LoginDataArray = [
     icon: [
       <Image
         key="email"
-        src="/assets/icons/emailBold.svg"
+        src="/assets/icons/email.svg"
         alt="email"
         width={20}
         height={16}
       />,
     ],
     type: "email",
-  },
-  {
-    name: "Password",
-    title: "Password",
-    placeholder: "Password",
-    icon: [
-      <Image
-        key="lock"
-        src="/assets/icons/lockBold.svg"
-        alt="email"
-        width={16}
-        height={14}
-      />,
-      <Image
-        key="view"
-        src="/assets/icons/notViewBold.svg"
-        alt="email"
-        width={16}
-        height={14}
-      />,
-    ],
-    type: "password",
+    inputCls:
+      "flex justify-between items-center p-5 rounded-xl gap-3 bg-[#EFEFEF]",
   },
 ];
 
-export default function LoginForm() {
+export default function ForgotPasswordForm() {
+    const router = useRouter()
+
   const methods = useForm<TLogin>({
     defaultValues: {
       email: "",
@@ -63,13 +46,15 @@ export default function LoginForm() {
 
   const onSubmit = async (data: TLogin) => {
     console.log(data);
+        router.push('/verify-otp')
+
   };
 
   return (
     <FormProvider {...methods}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-[22px] w-[422px] "
+        className="flex flex-col gap-[22px] w-[360px] "
       >
         {LoginDataArray.map((data, ind) => (
           <FormField
@@ -79,18 +64,15 @@ export default function LoginForm() {
             placeHolder={data.placeholder}
             icon={data.icon}
             type={data.type}
+            inputCls={data.inputCls}
           />
         ))}
-        <div className="flex gap-3">
-          <div className="rounded-lg border-[3px] border-[#FF6F61] w-6 h-6 "></div>
-          <p className="font-bold leading-6">Remember me</p>
-        </div>
         <button
           type="submit"
           disabled={isSubmitting}
-          className="cursor-pointer rounded-2xl bg-[#ff6f61] font-urbanist text-white p-4 font-extrabold text-[20px] leading-[30px]"
+          className="cursor-pointer rounded-lg bg-[#ff6f61] font-urbanist text-[#F1F8FD] py-[10px] font-extrabold text-[16px] leading-[24px] mt-[10px]"
         >
-          {isSubmitting ? "Signing In..." : "Sign In"}
+          {isSubmitting ? "Getting OTP..." : "Get OTP"}
         </button>
       </form>
     </FormProvider>
