@@ -1,6 +1,7 @@
 "use client";
 import FormField from "@/utils/FormField";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
@@ -50,6 +51,7 @@ const LoginDataArray = [
 ];
 
 export default function LoginForm() {
+  const router = useRouter();
   const methods = useForm<TLogin>({
     defaultValues: {
       email: "",
@@ -62,6 +64,7 @@ export default function LoginForm() {
   } = methods;
 
   const onSubmit = async (data: TLogin) => {
+    router.push("/admin/dashboard");
     console.log(data);
   };
 

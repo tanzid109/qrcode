@@ -9,6 +9,7 @@ export type TResetPassword = {
   password: string;
   confirmPassword: string;
 };
+
 export default function ResetPasswordForm() {
   const router = useRouter();
   const methods = useForm<TResetPassword>({
@@ -24,20 +25,22 @@ export default function ResetPasswordForm() {
 
   const onSubmit = async (data: TResetPassword) => {
     console.log(data);
-    router.push("/reset-password");
+    router.push("/login");
   };
 
   return (
     <FormProvider {...methods}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-[22px] w-[360px] "
+        className="flex flex-col gap-6 w-[360px] "
       >
-        <section className="flex justify-between">
+        <section className="flex flex-col gap-6">
           {Array.from({ length: 2 }).map((_, ind) => (
             <FormField
               key={ind}
-              name={`otp${ind}`}
+              placeHolder={ind === 0 ? "Password" : "Confirm Password"}
+              title={ind === 0 ? "Password" : "Confirm Password"}
+              name={ind === 0 ? "password" : "confirmPassword"}
               type="password"
               icon={[
                 <Image

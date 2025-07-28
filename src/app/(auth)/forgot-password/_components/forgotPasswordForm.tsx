@@ -31,7 +31,7 @@ const LoginDataArray = [
 ];
 
 export default function ForgotPasswordForm() {
-    const router = useRouter()
+  const router = useRouter();
 
   const methods = useForm<TLogin>({
     defaultValues: {
@@ -46,8 +46,7 @@ export default function ForgotPasswordForm() {
 
   const onSubmit = async (data: TLogin) => {
     console.log(data);
-        router.push('/verify-otp')
-
+    router.push("/verify-otp");
   };
 
   return (
