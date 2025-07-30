@@ -1,6 +1,5 @@
 import React from "react";
 import Image from "next/image";
-import { icons } from "@/assets/assets.config";
 import Link from "next/link";
 
 const sidebarData = [
@@ -9,19 +8,23 @@ const sidebarData = [
     value: [
       {
         title: "Dashboard",
-        path: "/dashboard",
+        path: "/admin/dashboard",
         icon: "/assets/icons/dashboard.svg",
       },
-      { title: "Users", path: "/users", icon: "/assets/icons/user.svg" },
-      { title: "Venues", path: "/venues", icon: "/assets/icons/venue.svg" },
+      { title: "Users", path: "/admin/users", icon: "/assets/icons/user.svg" },
+      {
+        title: "Venues",
+        path: "/admin/venues",
+        icon: "/assets/icons/venue.svg",
+      },
       {
         title: "Venue Wallet",
-        path: "/venue-wallet",
+        path: "/admin/venue-wallet",
         icon: "/assets/icons/wallet.svg",
       },
       {
         title: "Earnings",
-        path: "/earnings",
+        path: "/admin/earnings",
         icon: "/assets/icons/earnings.svg",
       },
     ],
@@ -29,18 +32,27 @@ const sidebarData = [
   {
     section: "Other",
     value: [
-      { title: "Profile", path: "/profile", icon: "/assets/icons/profile.svg" },
+      {
+        title: "Profile",
+        path: "/admin/profile",
+        icon: "/assets/icons/profile.svg",
+      },
       {
         title: "Settings",
         sub: [
           {
             title: "Privacy Policy",
-            path: "/privacy-policy",
+            path: "/admin/privacy-policy",
           },
-          { title: "Terms & Condition", path: "/terms-and-condition" },
-          { title: "Help & Support", path: "/help-and-support" },
+          { title: "Terms & Condition", path: "/admin/terms-and-condition" },
+          { title: "Help & Support", path: "/admin/help-and-support" },
         ],
         icon: "/assets/icons/settings.svg",
+      },
+      {
+        title: "Log out",
+        path: "/login",
+        icon: "/assets/icons/logout.svg",
       },
     ],
   },
@@ -48,16 +60,18 @@ const sidebarData = [
 
 export default function Sidebar() {
   return (
-    <main className="flex flex-col gap-10">
+    <main className="flex flex-col w-[15%] px-auto gap-10 pt-[30px]  shadow-[4px_0px_8px_rgba(0,0,0,0.1)] min-h-screen">
       <Image src="/assets/icons/logo.svg" alt="logo" height={75} width={250} />
       {sidebarData.map((section, ind) => (
-        <section key={ind} className="">
-          <h2 className="">{section.section}</h2>
-          <ul className="">
+        <section key={ind} className="gap-[10px] p-4">
+          <h2 className="font-bold text-xs leading-5 px-4">
+            {section.section}
+          </h2>
+          <ul className="space-y-2">
             {section.value.map((item) =>
               "sub" in item ? (
                 <li key={item.title}>
-                  <div className="flex items-center gap-2 font-medium text-gray-700">
+                  <div className="flex items-center px-4 py-2 gap-3 font-medium text-base leading-5 rounded-[6px] hover:bg-[#FF6F61] hover:text-[#ffffff]">
                     <Image
                       src={item.icon}
                       alt={item.title}
@@ -82,10 +96,10 @@ export default function Sidebar() {
                   </ul>
                 </li>
               ) : (
-                <li key={item.title}>
+                <li key={item.title} className="">
                   <Link
                     href={item.path}
-                    className="flex items-center gap-2 text-gray-700 hover:text-black"
+                    className="flex items-center px-4 py-2 gap-3 font-medium text-base leading-5 rounded-[6px] hover:bg-[#FF6F61] hover:text-[#ffffff]"
                   >
                     <Image
                       src={item.icon}
