@@ -1,14 +1,15 @@
 import defaultTheme from "tailwindcss/defaultTheme";
 /** @type {import ('tailwindcss').Config} */
+import type { Config } from "tailwindcss";
 import scrollbar from "tailwind-scrollbar";
-module.exports = {
+
+const config: Config = {
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx}",
     "./src/pages/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
-  safelist: ["text-secondary"],
   theme: {
     extend: {
       fontFamily: {
@@ -31,3 +32,5 @@ module.exports = {
   },
   plugins: [scrollbar],
 };
+
+export default config;

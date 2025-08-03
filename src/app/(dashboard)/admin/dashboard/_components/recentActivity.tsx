@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function RecentActivity() {
   return (
-    <main className="p-8 pb-10 rounded-[14px] space-y-5 h-full  overflow-auto ">
+    <main className="p-8 pb-10 rounded-[14px] border-2 space-y-5 h-full  overflow-auto scroll-auto">
       <section className="flex justify-between w-full">
         <h1 className="text-lg leading-6 font-bold">Recent Activity</h1>
         <button className="text-xs leading-5 font-regular text-[#FF6F61]">
