@@ -36,7 +36,7 @@ const recentUserTableData: IUserTable[] = Array.from({ length: 5 }, (_, i) => ({
         },
       },
       {
-        icon: "/assets/icons/block.svg",
+        icon: "/assets/icons/eye.svg",
         onClick: () => {
           console.log("Block clicked for John Doe");
         },
