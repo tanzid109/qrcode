@@ -10,23 +10,23 @@ interface IUserEvent {
 
 interface IUserTable extends DataRow {
   "Serial ID": string;
-  name: string;
-  email: string;
-  joiningDate: Date;
-  gitftSent: number;
-  giftReceived: number;
+  Name: string;
+  Email: string;
+  "Joining Date": Date;
+  "Gitft Sent": number;
+  "Gift Received": number;
   action: {
     events: IUserEvent[];
   };
 }
 
-const recentUserTableData: IUserTable[] = Array.from({ length: 5 }, (_, i) => ({
+const allUserTableData: IUserTable[] = Array.from({ length: 10 }, (_, i) => ({
   "Serial ID": `${1223 + i}`,
-  name: "John Doe",
-  email: "example@gmail.com",
-  joiningDate: new Date("jun 10, 2025"),
-  gitftSent: 16,
-  giftReceived: 16,
+  Name: "John Doe",
+  Email: "example@gmail.com",
+  "Joining Date": new Date("jun 10, 2025"),
+  "Gitft Sent": 16,
+  "Gift Received": 16,
   action: {
     events: [
       {
@@ -45,11 +45,11 @@ const recentUserTableData: IUserTable[] = Array.from({ length: 5 }, (_, i) => ({
   },
 }));
 
-export default function RecentUser() {
+export default function AllUser() {
   return (
     <main className="">
       <section className="rounded-xl shadow-2xl">
-        <DataTable data={recentUserTableData} />
+        <DataTable data={allUserTableData} />
       </section>
     </main>
   );

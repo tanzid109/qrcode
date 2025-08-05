@@ -11,7 +11,6 @@ export default function AdminLayout({
       <section className="">
         <Headbar />
       </section>
-
       {children}
     </main>
   );

@@ -8,29 +8,33 @@ interface IUserEvent {
   onClick: () => void;
 }
 
-interface IUserTable extends DataRow {
+interface IVenueTable extends DataRow {
   "Serial ID": string;
-  name: string;
-  email: string;
-  joiningDate: Date;
-  gitftSent: number;
-  giftReceived: number;
+  "Venue Name": string;
+  "Venue Type": string;
+  Location: string;
+  "Menu Items": number;
   action: {
     events: IUserEvent[];
   };
 }
 
-const recentUserTableData: IUserTable[] = Array.from({ length: 5 }, (_, i) => ({
+const allVenueTableData: IVenueTable[] = Array.from({ length: 10 }, (_, i) => ({
   "Serial ID": `${1223 + i}`,
-  name: "John Doe",
-  email: "example@gmail.com",
-  joiningDate: new Date("jun 10, 2025"),
-  gitftSent: 16,
-  giftReceived: 16,
+  "Venue Name": "John Doe",
+  "Venue Type": "example@gmail.com",
+  Location: "Banashree, Dhaka",
+  "Menu Items": 16,
   action: {
     events: [
       {
-        icon: "/assets/icons/block.svg",
+        icon: "/assets/icons/edit.svg",
+        onClick: () => {
+          console.log("Block clicked for John Doe");
+        },
+      },
+      {
+        icon: "/assets/icons/eye.svg",
         onClick: () => {
           console.log("Block clicked for John Doe");
         },
@@ -45,11 +49,11 @@ const recentUserTableData: IUserTable[] = Array.from({ length: 5 }, (_, i) => ({
   },
 }));
 
-export default function RecentUser() {
+export default function AllVenues() {
   return (
     <main className="">
       <section className="rounded-xl shadow-2xl">
-        <DataTable data={recentUserTableData} />
+        <DataTable data={allVenueTableData} />
       </section>
     </main>
   );

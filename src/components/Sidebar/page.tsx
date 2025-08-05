@@ -60,7 +60,7 @@ const sidebarData = [
 
 export default function Sidebar() {
   return (
-    <main className="flex flex-col w-[15%] px-auto gap-10 pt-[30px]  shadow-[4px_0px_8px_rgba(0,0,0,0.1)] min-h-screen">
+    <main className="flex flex-col w-[250px] px-auto gap-10 pt-[30px]  shadow-[4px_0px_8px_rgba(0,0,0,0.1)] min-h-screen">
       <Image src="/assets/icons/logo.svg" alt="logo" height={75} width={250} />
       {sidebarData.map((section, ind) => (
         <section key={ind} className="gap-[10px] p-4">
