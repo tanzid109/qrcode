@@ -43,9 +43,18 @@ const sidebarData = [
           {
             title: "Privacy Policy",
             path: "/admin/privacy-policy",
+            icon: "",
           },
-          { title: "Terms & Condition", path: "/admin/terms-and-condition" },
-          { title: "Help & Support", path: "/admin/help-and-support" },
+          {
+            title: "Terms & Condition",
+            path: "/admin/terms-and-condition",
+            icon: "",
+          },
+          {
+            title: "Help & Support",
+            path: "/admin/help-and-support",
+            icon: "",
+          },
         ],
         icon: "/assets/icons/settings.svg",
       },
