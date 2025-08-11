@@ -1,0 +1,18 @@
+.jodit {
+    display: flex;
+    flex-direction: column;
+}
+
+.jodit .jodit-toolbar__box {
+    order: 2;
+    display: flex;
+    justify-content: flex-end;
+    padding: 4px;
+    background: transparent !important;
+    border-top: none;
+    box-shadow: none !important;
+}
+
+.jodit .jodit-wysiwyg {
+    order: 1;
+}

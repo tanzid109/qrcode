@@ -1,0 +1,25 @@
+/* Make the editor layout vertical */
+.jodit {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Move toolbar to bottom and remove background */
+.jodit .jodit-toolbar__box {
+    order: 2;
+    display: flex;
+    justify-content: flex-end;
+    /* Align toolbar buttons to right */
+    padding: 4px;
+    border-top: none;
+    /* Remove top border */
+    background: white !important;
+    /* Remove background color */
+    box-shadow: none !important;
+    /* Remove shadow */
+}
+
+/* Keep content on top */
+.jodit .jodit-wysiwyg {
+    order: 1;
+}

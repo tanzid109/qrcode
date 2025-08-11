@@ -1,6 +1,8 @@
+"use client";
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation"; // for active link detection
 
 const sidebarData = [
   {
@@ -68,8 +70,10 @@ const sidebarData = [
 ];
 
 export default function Sidebar() {
+  const pathname = usePathname(); // get current path
+
   return (
-    <main className="flex flex-col w-[250px] px-auto gap-10 pt-[30px]  shadow-[4px_0px_8px_rgba(0,0,0,0.1)] min-h-screen">
+    <main className="flex flex-col px-auto gap-10 pt-[30px] shadow-[4px_0px_8px_rgba(0,0,0,0.1)] min-h-screen">
       <Image src="/assets/icons/logo.svg" alt="logo" height={75} width={250} />
       {sidebarData.map((section, ind) => (
         <section key={ind} className="gap-[10px] p-4">
@@ -80,7 +84,12 @@ export default function Sidebar() {
             {section.value.map((item) =>
               "sub" in item ? (
                 <li key={item.title}>
-                  <div className="flex items-center px-4 py-2 gap-3 font-medium text-base leading-5 rounded-[6px] hover:bg-[#FF6F61] hover:text-[#ffffff]">
+                  <div
+                    className={`flex items-center px-4 py-2 gap-3 font-medium text-base leading-5 rounded-[6px] hover:bg-[#FF6F61] hover:text-white ${pathname.startsWith(item.path)
+                        ? "bg-[#FF6F61] text-white"
+                        : ""
+                      }`}
+                  >
                     <Image
                       src={item.icon}
                       alt={item.title}
@@ -89,15 +98,18 @@ export default function Sidebar() {
                     />
                     <span>{item.title}</span>
                   </div>
-                  <ul className=" mt-1 space-y-1 text-sm text-gray-600">
+                  <ul className="mt-1 space-y-1 text-sm text-gray-600">
                     {item.sub &&
                       item.sub.map((subItem) => (
-                        <li key={subItem.title} className="">
+                        <li key={subItem.title}>
                           <Link
                             href={subItem.path}
-                            className="hover:text-black flex items-center"
+                            className={`flex items-center pl-8 text-base hover:text-black ${pathname === subItem.path
+                                ? "text-[#FF6F61] font-semibold"
+                                : ""
+                              }`}
                           >
-                            <p>.</p>
+                            <p className="mr-1">•</p>
                             <p>{subItem.title}</p>
                           </Link>
                         </li>
@@ -105,10 +117,11 @@ export default function Sidebar() {
                   </ul>
                 </li>
               ) : (
-                <li key={item.title} className="">
+                <li key={item.title}>
                   <Link
                     href={item.path}
-                    className="flex items-center px-4 py-2 gap-3 font-medium text-base leading-5 rounded-[6px] hover:bg-[#FF6F61] hover:text-[#ffffff]"
+                    className={`flex items-center px-4 py-2 gap-3 font-medium text-base leading-5 rounded-[6px] hover:bg-[#FF6F61] hover:text-white ${pathname === item.path ? "bg-[#FF6F61] text-white" : ""
+                      }`}
                   >
                     <Image
                       src={item.icon}
