@@ -20,7 +20,7 @@ interface IEarningTable extends DataRow {
 }
 
 const earningsTableData: IEarningTable[] = Array.from(
-  { length: 10 },
+  { length: 60 },
   (_, i) => ({
     "Serial ID": `${1223 + i}`,
     "Venue Name": "The Cafe Rio",

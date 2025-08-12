@@ -49,7 +49,7 @@ export default function AllUser() {
     }
   };
 
-  const allUserTableData: IUserTable[] = Array.from({ length: 10 }, (_, i) => ({
+  const allUserTableData: IUserTable[] = Array.from({ length: 60}, (_, i) => ({
     "Serial ID": `${1223 + i}`,
     Name: "John Doe",
     Email: "example@gmail.com",

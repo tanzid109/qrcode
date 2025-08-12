@@ -1,6 +1,7 @@
 import React from "react";
 import AllVenues from "./_components/allVenues";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function page() {
   return (
@@ -15,9 +16,9 @@ export default function page() {
               height={30}
               width={30}
             />
-            <p className="text-[15px] font-bold leading-[200%] text-[#FFFFFF]">
+            <Link href="/admin/venues/addvenu" className="text-[15px] font-bold leading-[200%] text-[#FFFFFF]">
               Add New Venue
-            </p>
+            </Link>
           </div>
         </section>
         <AllVenues />
