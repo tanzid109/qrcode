@@ -7,8 +7,8 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   return (
-    <main className="space-y-[22px] px-[3%]">
-      <section className="">
+    <main className="space-y-[22px]">
+      <section className="sticky top-0 z-50 p-3">
         <Headbar />
       </section>
       {children}

@@ -9,7 +9,7 @@ export default function DashboardLayout({
   return (
     <main className="flex">
       <Sidebar />
-      <section className="px-[25px] pt-[22px] pb-6 flex-grow">
+      <section className="ml-[14%] px-[25px] pt-[22px] pb-6 flex-grow">
         {children}
       </section>
     </main>

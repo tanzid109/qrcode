@@ -74,7 +74,7 @@ export default function Sidebar() {
   const [settingsOpen, setSettingsOpen] = useState(false);
 
   return (
-    <main className="flex flex-col px-auto gap-10 pt-[30px] shadow-[4px_0px_8px_rgba(0,0,0,0.1)] min-h-screen">
+    <main className="fixed flex  flex-col px-auto gap-10 pt-[30px] shadow-[4px_0px_8px_rgba(0,0,0,0.1)] min-h-screen">
       <Image src="/assets/icons/logo.svg" alt="logo" height={75} width={250} />
 
       {sidebarData.map((section, ind) => (
@@ -89,7 +89,7 @@ export default function Sidebar() {
                     type="button"
                     onClick={() => setSettingsOpen(!settingsOpen)}
                     className={`flex items-center w-full px-4 py-2 gap-3 font-medium text-base leading-5 rounded-[6px] hover:bg-[#FF6F61] hover:text-white focus:outline-none ${pathname.startsWith(item.path) || settingsOpen
-                        ? "bg-[#FF6F61] text-white"
+                        ? ""
                         : ""
                       }`}
                     aria-expanded={settingsOpen}

@@ -171,25 +171,16 @@ const Addvenu: React.FC<EditProfileManagementProps> = ({
                                     <img
                                         src={uploadedImages[0]}
                                         alt="Uploaded Preview"
-                                        className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                                        className="absolute inset-0 w-full h-full object-cover rounded-lg "
                                     />
                                 ) : (
                                     <>
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            className="h-8 w-8 text-gray-400 mb-2"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                            stroke="currentColor"
-                                        >
-                                            <path
-                                                strokeLinecap="round"
-                                                strokeLinejoin="round"
-                                                strokeWidth={2}
-                                                d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
-                                            />
-                                        </svg>
-                                        <span className="text-gray-400 text-sm">Upload</span>
+                                            <svg width="33" height="27" viewBox="0 0 33 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M21.8339 18.8327L16.5006 13.4994M16.5006 13.4994L11.1672 18.8327M16.5006 13.4994V25.4994M27.6872 22.0194C28.9877 21.3104 30.015 20.1886 30.6071 18.8309C31.1991 17.4732 31.3222 15.9571 30.9568 14.5217C30.5915 13.0863 29.7585 11.8134 28.5895 10.904C27.4204 9.99458 25.9817 9.50039 24.5006 9.49941H22.8206C22.417 7.9384 21.6648 6.48919 20.6205 5.26073C19.5762 4.03228 18.267 3.05654 16.7914 2.40689C15.3157 1.75723 13.712 1.45055 12.1007 1.50992C10.4895 1.56928 8.91265 1.99314 7.48879 2.74963C6.06494 3.50612 4.83111 4.57555 3.88005 5.87752C2.929 7.17949 2.28548 8.68012 1.99786 10.2666C1.71025 11.8531 1.78603 13.4841 2.21951 15.0371C2.65299 16.5901 3.43288 18.0246 4.50056 19.2327" stroke="#FF6F61" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+                                            </svg>
+                                            <span className="text-[#181D27] text-base">Upload Image</span>
+                                            <span className="text-[#6C606C] text-base">Max file : 25 MB</span>
+                                            <button className="px-5 py-1 my-2 text-white bg-[#FF6F61] rounded-2xl">Browse Files    </button>
                                     </>
                                 )}
                                 <input
@@ -201,6 +192,59 @@ const Addvenu: React.FC<EditProfileManagementProps> = ({
                                 />
                             </div>
                         </div>
+                    </div>
+                    {/* menu */}
+                    <h1 className="text-2xl font-extrabold">Menu</h1>
+                    <div>
+                        <label
+                            htmlFor="address"
+                            className="block text-[#2C2C2C] text-sm font-bold my-2"
+                        >
+                            Item Name
+                        </label>
+                        <input
+                            type="text"
+                            id="address"
+                            name="address"
+                            placeholder="Enter Name"
+                            value={formData.address}
+                            onChange={handleInputChange}
+                            className="w-full p-3 rounded-lg bg-[#EFEFEF] text-[#2C2C2C]"
+                        />
+                    </div>
+                    <div>
+                        <label
+                            htmlFor="address"
+                            className="block text-[#2C2C2C] text-sm font-bold my-2"
+                        >
+                            Item Description
+                        </label>
+                        <input
+                            type="text"
+                            id="address"
+                            name="address"
+                            placeholder="Item Description"
+                            value={formData.address}
+                            onChange={handleInputChange}
+                            className="w-full p-3 rounded-lg bg-[#EFEFEF] text-[#2C2C2C]"
+                        />
+                    </div>
+                    <div>
+                        <label
+                            htmlFor="address"
+                            className="block text-[#2C2C2C] text-sm font-bold my-2"
+                        >
+                            Item Price
+                        </label>
+                        <input
+                            type="text"
+                            id="address"
+                            name="address"
+                            placeholder="Item Price"
+                            value={formData.address}
+                            onChange={handleInputChange}
+                            className="w-full p-3 rounded-lg bg-[#EFEFEF] text-[#2C2C2C]"
+                        />
                     </div>
 
                     {/* Opening Hours */}

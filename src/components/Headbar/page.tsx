@@ -30,7 +30,7 @@ export default function Headbar() {
 
   return (
     <>
-      <header className="flex justify-end items-center gap-[30px]">
+      <header className=" flex justify-end items-center gap-[30px]">
         <Image
           src="/assets/icons/notification.svg"
           alt="profile"

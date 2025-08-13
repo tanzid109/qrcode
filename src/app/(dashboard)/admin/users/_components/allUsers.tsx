@@ -86,11 +86,11 @@ export default function AllUser() {
             </div>
             <div className="text-center mb-4">
               <Image
-                src="/assets/icons/profile.svg"
+                src="/assets/Image.jpg"
                 alt="profile"
-                width={100}
+                width={150}
                 height={100}
-                className="rounded-full mx-auto mb-4"
+                className="rounded-xl mx-auto mb-4 object-fill"
                 />
               <p className="font-semibold text-[#FF6F61]"> {selectedUser.Name}</p>
             </div>

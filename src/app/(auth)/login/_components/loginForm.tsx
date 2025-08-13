@@ -85,7 +85,13 @@ export default function LoginForm() {
           />
         ))}
         <div className="flex gap-3">
-          <div className="rounded-lg border-[3px] border-[#FF6F61] w-6 h-6 "></div>
+          <label className="flex items-center cursor-pointer">
+            <input
+              type="checkbox"
+              className="hidden peer"
+            />
+            <div className="rounded-lg border-[3px] border-[#FF6F61] w-6 h-6 peer-checked:bg-[#FF6F61] transition-colors"></div>
+          </label>
           <p className="font-bold leading-6">Remember me</p>
         </div>
         <button
