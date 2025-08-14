@@ -231,7 +231,7 @@ const Addvenu: React.FC<EditProfileManagementProps> = ({
                         </div>
 
                         {menuItems.map((item, index) => (
-                            <div key={index} className="mb-4 border-b pb-4">
+                            <div key={index} className="mb-4 pb-4">
                                 <div className="flex items-center justify-end gap-2 mb-2">
                                     <button
                                         type="button"
