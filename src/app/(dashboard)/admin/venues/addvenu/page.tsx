@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import React, { useState, useRef, ChangeEvent } from "react";
 
 interface OperatingHour {
@@ -66,6 +67,7 @@ const Addvenu: React.FC<EditProfileManagementProps> = ({
     ) => {
         setFormData((prev) => {
             const newHours = [...prev.operatingHours];
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (newHours[index] as any)[field] = value;
             return { ...prev, operatingHours: newHours };
         });
@@ -187,6 +189,24 @@ const Addvenu: React.FC<EditProfileManagementProps> = ({
                             className="w-full p-3 rounded-lg bg-[#EFEFEF] text-[#2C2C2C]"
                         />
                     </div>
+                    {/* venue email */}
+                    <div>
+                        <label
+                            htmlFor="address"
+                            className="block text-[#2C2C2C] text-sm font-bold my-2"
+                        >
+                            Venue Email
+                        </label>
+                        <input
+                            type="text"
+                            id="address"
+                            name="address"
+                            placeholder="Enter Email"
+                            value={formData.address}
+                            onChange={handleInputChange}
+                            className="w-full p-3 rounded-lg bg-[#EFEFEF] text-[#2C2C2C]"
+                        />
+                    </div>
 
                     {/* Upload Image */}
                     <div>
@@ -195,11 +215,11 @@ const Addvenu: React.FC<EditProfileManagementProps> = ({
                         </label>
                         <div className="rounded-lg">
                             <div
-                                className="flex flex-col items-center justify-center bg-[#EFEFEF] rounded-lg h-32 cursor-pointer hover:border-blue-400 relative overflow-hidden"
+                                className="flex flex-col items-center justify-center bg-[#EFEFEF] rounded-lg p-5 cursor-pointer hover:border-blue-400 relative overflow-hidden"
                                 onClick={() => handleImageUploadClick(0)}
                             >
                                 {uploadedImages[0] ? (
-                                    <img
+                                    <Image
                                         src={uploadedImages[0]}
                                         alt="Uploaded Preview"
                                         className="absolute inset-0 w-full h-full object-cover rounded-lg "

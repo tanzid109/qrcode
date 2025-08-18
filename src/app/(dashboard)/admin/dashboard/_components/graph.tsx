@@ -64,33 +64,45 @@ const data = {
 const options = {
   responsive: true,
   maintainAspectRatio: false,
+  interaction: {
+    mode: "index" as const,
+    intersect: false,
+  },
   plugins: {
     legend: {
       display: false,
-      //   position: "top" as const,
-      //   labels: {
-      //     usePointStyle: true,
-      //     pointStyle: "circle",
-      //     pointHoverRadius: 8,
-      //   },
     },
     tooltip: {
-      mode: "index" as const,
-      intersect: false,
-      backgroundColor: "rgba(255,255,255,1)",
-      titleColor: "#ffffff",
-      bodyColor: "#ffffff",
+      backgroundColor: "#ffffff",
+      borderColor: "#e5e7eb",
       borderWidth: 1,
-      borderColor: "#cccfff",
+      titleColor: "#9ca3af",
+      bodyColor: "#111827",
+      titleAlign: "center",
+      padding: 12,
+      cornerRadius: 8,
+      displayColors: true,
+      usePointStyle: true,
+      callbacks: {
+        title: (tooltipItems) => {
+          // Example date mapping
+          const month = tooltipItems[0].label;
+          return `${month} 14, 2030`; // Replace with real date mapping if needed
+        },
+        label: (tooltipItem) => {
+          const value = tooltipItem.formattedValue;
+          return ` ${value}`;
+        },
+        labelTextColor: (tooltipItem) => {
+          return tooltipItem.dataset.borderColor as string;
+        },
+      },
     },
   },
   scales: {
     x: {
       grid: {
         drawOnChartArea: false,
-      },
-      ticks: {
-        stepSize: 500,
       },
     },
     y: {
@@ -106,6 +118,7 @@ const options = {
     },
   },
 };
+
 
 export default function Graph() {
   return (
