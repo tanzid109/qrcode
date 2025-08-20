@@ -8,7 +8,7 @@ export default function AdminLayout({
 }) {
   return (
     <main className="space-y-[22px]">
-      <section className="sticky top-0 z-50 p-3">
+      <section className="sticky top-0 z-50 p-3 bg-transparent rounded-sm shadow-sm backdrop-blur-sm">
         <Headbar />
       </section>
       {children}

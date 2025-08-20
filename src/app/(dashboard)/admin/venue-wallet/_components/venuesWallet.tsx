@@ -22,8 +22,7 @@ interface ITransaction {
   transactionId: string;
 }
 
-const formatCurrency = (amount: number) =>
-  `£${Math.abs(amount).toFixed(2)}`;
+const formatCurrency = (amount: number) => `£${Math.abs(amount).toFixed(2)}`;
 
 const columns = [
   "Serial ID",
@@ -54,56 +53,19 @@ const earningsTableData: IEarningRow[] = Array.from({ length: 100 }, (_, i) => (
   payableAmount: i === 0 ? 1960 : 2450,
 }));
 
-// Generate transaction data for the modal based on the image
+// Generate transaction data for the modal
 const generateTransactionData = (serialId: string): ITransaction[] => {
-  return [
-    {
-      serialId: "1223",
-      venueName: "The Cafe Rio",
-      paymentFrom: "Tessa Gordon",
-      boughtItem: "Latte",
-      paymentAmount: 10,
-      date: "12/12/2025",
-      transactionId: "TNX12094546",
-    },
-    {
-      serialId: "1223",
-      venueName: "The Cafe Rio",
-      paymentFrom: "Tessa Gordon",
-      boughtItem: "Latte",
-      paymentAmount: 10,
-      date: "12/12/2025",
-      transactionId: "TNX12094546",
-    },
-    {
-      serialId: "1223",
-      venueName: "The Cafe Rio",
-      paymentFrom: "Tessa Gordon",
-      boughtItem: "Latte",
-      paymentAmount: 10,
-      date: "12/12/2025",
-      transactionId: "TNX12094546",
-    },
-    {
-      serialId: "1223",
-      venueName: "The Cafe Rio",
-      paymentFrom: "Tessa Gordon",
-      boughtItem: "Latte",
-      paymentAmount: 10,
-      date: "12/12/2025",
-      transactionId: "TNX12094546",
-    },
-    {
-      serialId: "1223",
-      venueName: "The Cafe Rio",
-      paymentFrom: "Tessa Gordon",
-      boughtItem: "Latte",
-      paymentAmount: 10,
-      date: "12/12/2025",
-      transactionId: "TNX12094546",
-    },
-  ];
+  return Array.from({ length: 6 }, (_, i) => ({
+    serialId,
+    venueName: "The Cafe Rio",
+    paymentFrom: `Customer ${i + 1}`,
+    boughtItem: ["Latte", "Espresso", "Cappuccino", "Mocha", "Americano", "Flat White"][i],
+    paymentAmount: 10 + i, // just to vary amounts a little
+    date: `12/${12 + i}/2025`,
+    transactionId: `TNX1209454${i + 6}`,
+  }));
 };
+
 
 // Modal Component
 const TransactionModal: React.FC<{
@@ -125,7 +87,7 @@ const TransactionModal: React.FC<{
           </button>
         </div>
         <table className="w-full border-collapse text-left text-sm space-y-5">
-          <thead className="">
+          <thead>
             <tr>
               <th className="px-4 py-2 border-b border-gray-700">Serial ID</th>
               <th className="px-4 py-2 border-b border-gray-700">Venue Name</th>
@@ -165,11 +127,13 @@ export default function VenuesWallet() {
   const [currentPage, setCurrentPage] = useState(1);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState<IEarningRow | null>(null);
+  const [tableData, setTableData] = useState<IEarningRow[]>(earningsTableData);
+
   const rowsPerPage = 10;
-  const totalPages = Math.ceil(earningsTableData.length / rowsPerPage);
+  const totalPages = Math.ceil(tableData.length / rowsPerPage);
 
   const startIndex = (currentPage - 1) * rowsPerPage;
-  const currentRows = earningsTableData.slice(startIndex, startIndex + rowsPerPage);
+  const currentRows = tableData.slice(startIndex, startIndex + rowsPerPage);
 
   const changePage = (page: number) => {
     if (page >= 1 && page <= totalPages) setCurrentPage(page);
@@ -209,6 +173,14 @@ export default function VenuesWallet() {
     setSelectedRow(null);
   };
 
+  const handleMarkAsPaid = (serialId: string) => {
+    setTableData((prev) =>
+      prev.map((row) =>
+        row.serialId === serialId ? { ...row, status: "Paid" } : row
+      )
+    );
+  };
+
   return (
     <main className="relative">
       <section className="rounded-xl shadow-2xl overflow-hidden">
@@ -225,20 +197,16 @@ export default function VenuesWallet() {
           <tbody>
             {currentRows.map((row, i) => (
               <tr key={i} className="border-b border-[#E1E1E1] text-center">
-                <td className="text-base text-[#2C2C2C] leading-[24px] px-6 py-8 font-semibold">{row.serialId}</td>
-                <td className="text-base text-[#2C2C2C] leading-[24px] px-6 py-8 font-semibold">{row.venue}</td>
-                <td className="text-base text-[#2C2C2C] leading-[24px] px-6 py-8 font-semibold">
-                  {formatCurrency(row.totalEarnings)}
-                </td>
-                <td className="text-base text-[#2C2C2C] leading-[24px] px-6 py-8 font-semibold">
+                <td className="text-base px-6 py-8 font-semibold">{row.serialId}</td>
+                <td className="text-base px-6 py-8 font-semibold">{row.venue}</td>
+                <td className="text-base px-6 py-8 font-semibold">{formatCurrency(row.totalEarnings)}</td>
+                <td className="text-base px-6 py-8 font-semibold">
                   {row.commission < 0
                     ? `-${formatCurrency(row.commission)}`
                     : formatCurrency(row.commission)}
                 </td>
-                <td className="text-base text-[#2C2C2C] leading-[24px] px-6 py-8 font-semibold">
-                  {formatCurrency(row.payableAmount)}
-                </td>
-                <td className="text-base text-[#2C2C2C] leading-[24px] px-6 py-8">
+                <td className="text-base px-6 py-8 font-semibold">{formatCurrency(row.payableAmount)}</td>
+                <td className="text-base px-6 py-8">
                   <span
                     className={`px-4 py-2 rounded-full text-sm font-medium flex items-center gap-1 w-fit ${row.status === "Pending"
                         ? "bg-[#FFD064] text-[#3C3C3C]"
@@ -248,19 +216,27 @@ export default function VenuesWallet() {
                     {row.status}
                   </span>
                 </td>
-                <td className="text-base text-[#2C2C2C] leading-[24px] px-6 py-8">
+                <td className="text-base px-6 py-8">
                   <button
                     onClick={() => openModal(row)}
-                    className="flex items-center gap-1 bg-[#FFCCC7] text-[#2C2C2C] font-semibold px-4 py-2 rounded"
+                    className="flex items-center gap-1 bg-[#FFCCC7] text-[#2C2C2C] font-semibold px-4 py-2 rounded hover:bg-[#df9b91] transition-colors"
                   >
                     <Eye size={24} />
                     See Transactions
                   </button>
                 </td>
-                <td className="text-base text-[#2C2C2C] leading-[24px] px-6 py-8">
-                  <button className="flex items-center gap-1 border border-red-500 text-red-500 px-3 py-1 rounded">
+                <td className="text-base px-6 py-8">
+                  <button
+                    onClick={() => handleMarkAsPaid(row.serialId)}
+                    disabled={row.status === "Paid"}
+                    className={`flex items-center gap-1 px-3 py-1 rounded transition-colors
+                      ${row.status === "Paid"
+                        ? "bg-red-500 text-white cursor-not-allowed"
+                        : "border border-red-500 text-red-500 hover:bg-red-500 hover:text-white"
+                      }`}
+                  >
                     <CheckCircle size={16} />
-                    Mark as paid
+                    {row.status === "Paid" ? "Paid" : "Mark as paid"}
                   </button>
                 </td>
               </tr>
