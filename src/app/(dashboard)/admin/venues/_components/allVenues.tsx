@@ -2,6 +2,7 @@
 
 import DataTable, { DataRow } from "@/components/table/dataTable";
 import React, { useState, useRef } from "react";
+import EditVenue from "./EditVenue"; // import modal
 
 interface IUserEvent {
   icon: string;
@@ -13,7 +14,7 @@ interface IVenueTable extends DataRow {
   "Venue Name": string;
   "Venue Type": string;
   "Location": string;
-  "Menu Items": number;  action: {
+  "Menu Items": number; action: {
     events: IUserEvent[];
   };
 }
@@ -22,6 +23,7 @@ export default function AllVenues() {
   const [isBlockModalOpen, setIsBlockModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false); // State for view modal
   const [selectedVenue, setSelectedVenue] = useState<IVenueTable | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const blockModalRef = useRef<HTMLDivElement | null>(null);
   const viewModalRef = useRef<HTMLDivElement | null>(null);
 
@@ -33,6 +35,21 @@ export default function AllVenues() {
   const handleViewClick = (venue: IVenueTable) => {
     setSelectedVenue(venue);
     setIsViewModalOpen(true);
+  };
+  const handleEditClick = (venue: IVenueTable) => {
+    setSelectedVenue(venue);
+    setIsEditModalOpen(true);
+  };
+
+  const closeEditModal = () => {
+    setIsEditModalOpen(false);
+    setSelectedVenue(null);
+  };
+
+  const handleSaveVenue = (updatedVenue: IVenueTable) => {
+    console.log("Updated venue:", updatedVenue);
+    // 🔹 Here you can update API or state for allVenueTableData
+    setIsEditModalOpen(false);
   };
 
   const closeBlockModal = () => {
@@ -62,9 +79,14 @@ export default function AllVenues() {
       events: [
         {
           icon: "/assets/icons/edit.svg",
-          onClick: () => {
-            console.log("Edit clicked for Banquet Hall");
-          },
+          onClick: () => handleEditClick({
+            "Serial ID": `${1223 + i}`,
+            "Venue Name": "Banquet Hall",
+            "Venue Type": "Restaurant",
+            "Location": "Banashree, Dhaka",
+            "Menu Items": 16,
+            action: { events: [] },
+          }),
         },
         {
           icon: "/assets/icons/eye.svg",
@@ -110,6 +132,14 @@ export default function AllVenues() {
       <section className="rounded-xl shadow-2xl p-6">
         <DataTable data={allVenueTableData} />
       </section>
+      {isEditModalOpen && selectedVenue && (
+        <EditVenue
+          venue={selectedVenue}
+          onClose={closeEditModal}
+          onSave={handleSaveVenue}
+        />
+      )}
+
 
       {isBlockModalOpen && selectedVenue && (
         <div
@@ -143,7 +173,6 @@ export default function AllVenues() {
           </div>
         </div>
       )}
-
       {isViewModalOpen && selectedVenue && (
         <div
           className="fixed inset-0 z-50 flex justify-center items-center"

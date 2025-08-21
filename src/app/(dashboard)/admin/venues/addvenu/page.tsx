@@ -16,6 +16,7 @@ interface FormData {
     address: string;
     phoneNumber: string;
     email: string;
+    password: string;
     operatingHours: OperatingHour[];
 }
 
@@ -37,6 +38,7 @@ const Addvenu: React.FC<EditProfileManagementProps> = ({ onBackClick }) => {
         address: "",
         phoneNumber: "",
         email: "",
+        password: "",
         operatingHours: [
             { day: "Sunday", openTime: "", closeTime: "", isOpen: true },
             { day: "Monday", openTime: "", closeTime: "", isOpen: true },
@@ -207,6 +209,24 @@ const Addvenu: React.FC<EditProfileManagementProps> = ({ onBackClick }) => {
                             name="email"
                             placeholder="Enter Email"
                             value={formData.email}
+                            onChange={handleInputChange}
+                            className="w-full p-3 rounded-lg bg-[#EFEFEF] text-[#2C2C2C]"
+                        />
+                    </div>
+                    {/* venue password */}
+                    <div>
+                        <label
+                            htmlFor="email"
+                            className="block text-[#2C2C2C] text-sm font-bold my-2"
+                        >
+                            Venue Email
+                        </label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter Password"
+                            value={formData.password}
                             onChange={handleInputChange}
                             className="w-full p-3 rounded-lg bg-[#EFEFEF] text-[#2C2C2C]"
                         />

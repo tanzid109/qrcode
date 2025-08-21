@@ -43,6 +43,11 @@ const sidebarData = [
         title: "Settings",
         sub: [
           {
+            title: "Change Password",
+            path: "/admin/change-password",
+            icon: "",
+          },
+          {
             title: "Privacy Policy",
             path: "/admin/privacy-policy",
             icon: "",
