@@ -78,6 +78,7 @@ const Addvenu: React.FC<EditProfileManagementProps> = ({ onBackClick }) => {
     ) => {
         setFormData((prev) => {
             const newHours = [...prev.operatingHours];
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             (newHours[index] as any)[field] = value;
             return { ...prev, operatingHours: newHours };
         });
