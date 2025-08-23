@@ -2,15 +2,14 @@
 import React, { useRef, useState, ChangeEvent } from "react";
 import Image from "next/image";
 import { FormProvider, useForm } from "react-hook-form";
-import FormField from "@/utils/FormField";
 
 export type TLogin = {
   fullName: string;
   email: string;
 };
 
-export default function Page() {
-  const [profileImage, setProfileImage] = useState<string>("/image/userImage.png");
+export default function ProfilePage() {
+  const [profileImage, setProfileImage] = useState<string>("/assets/userCov.png");
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -41,26 +40,48 @@ export default function Page() {
   };
 
   const handleImageClick = () => {
-    fileInputRef.current?.click();
+    // Only allow image change when editing
+    if (isEditing) {
+      fileInputRef.current?.click();
+    }
   };
 
   const onSubmit = async (data: TLogin) => {
-    console.log("Updated data:", data);
-    setIsEditing(false); // Exit edit mode after save
+    try {
+      console.log("Updated data:", data);
+
+      // TODO: Send data to server
+      // await fetch("/api/update-profile", {
+      //   method: "PUT",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify(data)
+      // });
+
+      setIsEditing(false); // Exit edit mode after successful save
+    } catch (error) {
+      console.error("Error updating profile:", error);
+    }
   };
 
-  const LoginDataArray = [
+  const handleCancel = () => {
+    reset(); // Reset form to original values
+    setIsEditing(false);
+    // Reset profile image to original if changed
+    setProfileImage("/assets/userCov.png");
+  };
+
+  const profileFormFields = [
     {
       name: "fullName" as const,
       title: "Full Name",
-      placeholder: "Alex Smith",
+      placeholder: "Enter your full name",
       icon: [
         <Image
-          key="lock"
-          src="/assets/icons/lockBold.svg"
-          alt="lock"
+          key="user"
+          src="/assets/icons/userBold.svg" // Changed from lock to user icon
+          alt="user"
           width={16}
-          height={14}
+          height={16}
         />,
       ],
       type: "text",
@@ -68,7 +89,7 @@ export default function Page() {
     {
       name: "email" as const,
       title: "Email Address",
-      placeholder: "alexmason@example.com",
+      placeholder: "Enter your email address",
       icon: [
         <Image
           key="email"
@@ -87,21 +108,39 @@ export default function Page() {
       {/* Profile Image */}
       <section className="flex justify-center mb-6">
         <div
-          className="relative rounded-full border cursor-pointer"
+          className={`relative rounded-full border ${isEditing ? "cursor-pointer hover:opacity-80" : "cursor-default"
+            } transition-opacity`}
           onClick={handleImageClick}
         >
           <div className="w-[120px] h-[120px] rounded-full overflow-hidden">
             <Image
-              src="/assets/userCov.png"
+              src={profileImage}
               alt="User Profile"
               width={120}
               height={120}
               className="rounded-full object-cover"
             />
           </div>
-          <span className="absolute bottom-0 right-0 bg-[#FF6F61] rounded-full p-1 ">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-camera-icon lucide-camera"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" /><circle cx="12" cy="13" r="3" /></svg>
-          </span>
+
+          {/* Camera icon only shows when editing */}
+          {isEditing && (
+            <span className="absolute bottom-0 right-0 bg-[#FF6F61] rounded-full p-1">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="#ffffff"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z" />
+                <circle cx="12" cy="13" r="3" />
+              </svg>
+            </span>
+          )}
         </div>
 
         <input
@@ -119,24 +158,37 @@ export default function Page() {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-col gap-6 w-[422px]"
         >
-          {LoginDataArray.map((data, ind) => (
-            <FormField
-              key={ind}
-              name={data.name}
-              title={data.title}
-              placeHolder={data.placeholder}
-              icon={data.icon}
-              type={data.type}
-              disabled={!isEditing}
-            />
+          {profileFormFields.map((field, index) => (
+            <div key={index} className="flex flex-col gap-2">
+              <label className="font-medium text-sm text-[#FF6F61]">
+                {field.title}
+              </label>
+              <div className="relative flex items-center">
+                <div className="absolute left-3 flex items-center">
+                  {field.icon}
+                </div>
+                <input
+                  {...methods.register(field.name)}
+                  type={field.type}
+                  placeholder={field.placeholder}
+                  disabled={!isEditing}
+                  className={`w-full pl-10 pr-4 py-3 border rounded-xl font-urbanist text-base
+                    ${!isEditing
+                    ? 'bg-gray-100 text-[#FF6F61] cursor-not-allowed border-gray-200'
+                    : 'bg-white text-[#FF6F61] border-gray-300 focus:border-[#ff6f61] focus:ring-2 focus:ring-[#ff6f61]/20 focus:outline-none'
+                    }
+                    transition-colors duration-200`}
+                />
+              </div>
+            </div>
           ))}
 
-          {/* Buttons */}
+          {/* Action Buttons */}
           {!isEditing ? (
             <button
               type="button"
               onClick={() => setIsEditing(true)}
-              className="cursor-pointer rounded-2xl bg-[#ff6f61] font-urbanist text-white p-4 font-extrabold text-lg"
+              className="cursor-pointer rounded-2xl bg-[#ff6f61] hover:bg-[#e55d50] font-urbanist text-white p-4 font-extrabold text-lg transition-colors"
             >
               Edit Profile
             </button>
@@ -145,17 +197,15 @@ export default function Page() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="cursor-pointer rounded-2xl bg-[#ff6f61] font-urbanist text-white px-6 py-3 font-bold text-lg w-full"
+                className="cursor-pointer rounded-2xl bg-[#ff6f61] hover:bg-[#e55d50] disabled:opacity-50 disabled:cursor-not-allowed font-urbanist text-white px-6 py-3 font-bold text-lg w-full transition-colors"
               >
-                {isSubmitting ? "Saving..." : "Save"}
+                {isSubmitting ? "Saving..." : "Save Changes"}
               </button>
               <button
                 type="button"
-                onClick={() => {
-                  reset();
-                  setIsEditing(false);
-                }}
-                className="cursor-pointer rounded-2xl border font-urbanist text-[#ff6f61] px-6 py-3 font-bold text-lg w-full"
+                onClick={handleCancel}
+                disabled={isSubmitting}
+                className="cursor-pointer rounded-2xl border border-[#ff6f61] hover:bg-[#ff6f61] hover:text-white disabled:opacity-50 disabled:cursor-not-allowed font-urbanist text-[#ff6f61] px-6 py-3 font-bold text-lg w-full transition-colors"
               >
                 Cancel
               </button>

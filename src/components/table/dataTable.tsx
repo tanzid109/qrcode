@@ -9,6 +9,15 @@ interface IUserEvent {
   onClick: () => void;
 }
 
+interface VenueData {
+  name: string;
+  image: string;
+}
+
+interface EventsContainer {
+  events: IUserEvent[];
+}
+
 export type DataRow = {
   [key: string]: unknown;
 };
@@ -17,6 +26,11 @@ export default function DataTable<T extends DataRow>({ data }: { data: T[] }) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
 
+  // Move useMemo before any conditional returns
+  const tableHeader = useMemo(() => {
+    return data && data.length > 0 ? Object.keys(data[0]) : [];
+  }, [data]);
+
   useEffect(() => {
     // reset to page 1 when data changes
     setCurrentPage(1);
@@ -24,21 +38,47 @@ export default function DataTable<T extends DataRow>({ data }: { data: T[] }) {
 
   if (!data || data.length === 0) return <p>No data available</p>;
 
-  const tableHeader = useMemo(() => Object.keys(data[0]), [data]);
-
   const totalPages = Math.ceil(data.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const currentData = data.slice(startIndex, startIndex + itemsPerPage);
 
-  const renderCell = (value: unknown) => {
+  const renderCell = (value: unknown, key: string) => {
     if (value instanceof Date) return value.toDateString();
+
+    // Handle venue name with image
+    if (key === "Venue Name" && typeof value === "object" && value !== null) {
+      // Type guard for venue data
+      if ("name" in value && "image" in value) {
+        const venueData = value as VenueData;
+        return (
+          <div className="flex items-center justify-center gap-3">
+            <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 flex-shrink-0">
+              <Image
+                src={venueData.image}
+                alt={venueData.name}
+                width={48}
+                height={48}
+                className="w-full h-full object-fill"
+                onError={(e) => {
+                  // Fallback to placeholder if image fails to load
+                  const target = e.target as HTMLImageElement;
+                  target.src = '/assets/images/placeholder-venue.jpg';
+                }}
+              />
+            </div>
+            <span className="font-bold text-[#2C2C2C]">{venueData.name}</span>
+          </div>
+        );
+      }
+    }
 
     if (typeof value === "object" && value !== null) {
       // handle events array (icons with handlers)
-      if ("events" in (value as any) && Array.isArray((value as any).events)) {
+      if ("events" in value && Array.isArray((value as EventsContainer).events)) {
+        const eventsContainer = value as EventsContainer;
         return (
           <div className="flex gap-[10px] justify-center">
-            {(value as any).events.map((event: IUserEvent, index: number) => (
+            {eventsContainer.events.map((event: IUserEvent, index: number) => (
               <div
                 key={index}
                 onClick={event.onClick}
@@ -99,10 +139,10 @@ export default function DataTable<T extends DataRow>({ data }: { data: T[] }) {
               {tableHeader.map((key) => (
                 <td
                   key={key}
-                  className={`text-base text-[#2C2C2C] leading-[24px] px-6 py-8 ${key.toLowerCase().includes("serial") ? "font-medium" : "font-bold"
-                    }`}
+                  className={`text-base text-[#2C2C2C] leading-[24px] px-6 py-8 ${key === "Venue Name" ? "text-left" : ""
+                    } ${key.toLowerCase().includes("serial") ? "font-medium" : "font-bold"}`}
                 >
-                  {renderCell(row[key])}
+                  {renderCell(row[key], key)}
                 </td>
               ))}
             </tr>

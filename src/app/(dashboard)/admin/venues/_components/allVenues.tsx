@@ -9,12 +9,18 @@ interface IUserEvent {
   onClick: () => void;
 }
 
+interface VenueNameData {
+  name: string;
+  image: string;
+}
+
 interface IVenueTable extends DataRow {
   "Serial ID": string;
-  "Venue Name": string;
+  "Venue Name": VenueNameData;
   "Venue Type": string;
   "Location": string;
-  "Menu Items": number; action: {
+  "Menu Items": number;
+  action: {
     events: IUserEvent[];
   };
 }
@@ -36,6 +42,7 @@ export default function AllVenues() {
     setSelectedVenue(venue);
     setIsViewModalOpen(true);
   };
+
   const handleEditClick = (venue: IVenueTable) => {
     setSelectedVenue(venue);
     setIsEditModalOpen(true);
@@ -65,73 +72,53 @@ export default function AllVenues() {
   const handleOutsideClick = (event: React.MouseEvent, modalType: 'block' | 'view') => {
     const modalRef = modalType === 'block' ? blockModalRef : viewModalRef;
     if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       modalType === 'block' ? closeBlockModal() : closeViewModal();
     }
   };
 
-  const allVenueTableData: IVenueTable[] = Array.from({ length: 60 }, (_, i) => ({
-    "Serial ID": `${1223 + i}`,
-    "Venue Name": "Banquet Hall",
-    "Venue Type": "Restaurant",
-    "Location": "Banashree, Dhaka",
-    "Menu Items": 16,
-    action: {
-      events: [
-        {
-          icon: "/assets/icons/edit.svg",
-          onClick: () => handleEditClick({
-            "Serial ID": `${1223 + i}`,
-            "Venue Name": "Banquet Hall",
-            "Venue Type": "Restaurant",
-            "Location": "Banashree, Dhaka",
-            "Menu Items": 16,
-            action: { events: [] },
-          }),
-        },
-        {
-          icon: "/assets/icons/eye.svg",
-          onClick: () => handleViewClick({
-            "Serial ID": `${1223 + i}`,
-            "Venue Name": "Banquet Hall",
-            "Venue Type": "Restaurant",
-            "Location": "Banashree, Dhaka",
-            "Menu Items": 16,
-            action: { events: [] },
-          }),
-        },
-        {
-          icon: "/assets/icons/block.svg",
-          onClick: () => handleBlockClick({
-            "Serial ID": `${1223 + i}`,
-            "Venue Name": "Banquet Hall",
-            "Venue Type": "Restaurant",
-            "Location": "Banashree, Dhaka",
-            "Menu Items": 16,
-            action: { events: [] },
-          }),
-        },
-      ],
-    },
-  }));
-
-  // Define column configurations for the DataTable
-  const columns = [
-    { key: "Serial ID", label: "Serial ID" },
-    {
-      key: "Venue Name",
-      label: "Venue Name",
-    },
-    { key: "Venue Type", label: "Venue Type" },
-    { key: "Location", label: "Location" },
-    { key: "Menu Items", label: "Menu Items" },
-    { key: "action", label: "Actions" },
+  // Sample venue images - you can replace these with actual image URLs
+  const venueImages = [
+    "/assets/cafe.jpg",
   ];
+
+  const allVenueTableData: IVenueTable[] = Array.from({ length: 60 }, (_, i) => {
+    const venue: IVenueTable = {
+      "Serial ID": `${1223 + i}`,
+      "Venue Name": {
+        name: "Banquet Hall",
+        image: venueImages[i % venueImages.length], // Cycle through images
+      },
+      "Venue Type": "Restaurant",
+      "Location": "Banashree, Dhaka",
+      "Menu Items": 16,
+      action: {
+        events: [
+          {
+            icon: "/assets/icons/edit.svg",
+            onClick: () => handleEditClick(venue),
+          },
+          {
+            icon: "/assets/icons/eye.svg",
+            onClick: () => handleViewClick(venue),
+          },
+          {
+            icon: "/assets/icons/block.svg",
+            onClick: () => handleBlockClick(venue),
+          },
+        ],
+      },
+    };
+
+    return venue;
+  });
 
   return (
     <main>
       <section className="rounded-xl shadow-2xl p-6">
         <DataTable data={allVenueTableData} />
       </section>
+
       {isEditModalOpen && selectedVenue && (
         <EditVenue
           venue={selectedVenue}
@@ -139,7 +126,6 @@ export default function AllVenues() {
           onSave={handleSaveVenue}
         />
       )}
-
 
       {isBlockModalOpen && selectedVenue && (
         <div
@@ -154,7 +140,9 @@ export default function AllVenues() {
             <h2 className="text-lg font-bold mb-4">Block Venue</h2>
             <p className="text-sm text-gray-600 mb-6">
               Are you sure you want to block{" "}
-              <span className="font-semibold">{selectedVenue["Venue Name"]}</span>?
+              <span className="font-semibold">
+                {selectedVenue["Venue Name"].name}
+              </span>?
             </p>
             <div className="flex justify-end gap-4">
               <button
@@ -173,6 +161,7 @@ export default function AllVenues() {
           </div>
         </div>
       )}
+
       {isViewModalOpen && selectedVenue && (
         <div
           className="fixed inset-0 z-50 flex justify-center items-center"
@@ -186,6 +175,7 @@ export default function AllVenues() {
             <h2 className="text-lg font-bold mb-4">Venue Details</h2>
             <div className="space-y-2">
               <p><span className="font-semibold">Serial ID:</span> {selectedVenue["Serial ID"]}</p>
+              <p><span className="font-semibold">Venue Name:</span> {selectedVenue["Venue Name"].name}</p>
               <p><span className="font-semibold">Venue Type:</span> {selectedVenue["Venue Type"]}</p>
               <p><span className="font-semibold">Location:</span> {selectedVenue["Location"]}</p>
               <p><span className="font-semibold">Menu Items:</span> {selectedVenue["Menu Items"]}</p>
