@@ -82,7 +82,8 @@ export default function AllVenues() {
     "/assets/cafe.jpg",
   ];
 
-  const allVenueTableData: IVenueTable[] = Array.from({ length: 60 }, (_, i) => {
+  // Create venues with proper closure handling
+  const createVenue = (i: number): IVenueTable => {
     const venue: IVenueTable = {
       "Serial ID": `${1223 + i}`,
       "Venue Name": {
@@ -111,7 +112,9 @@ export default function AllVenues() {
     };
 
     return venue;
-  });
+  };
+
+  const allVenueTableData: IVenueTable[] = Array.from({ length: 60 }, (_, i) => createVenue(i));
 
   return (
     <main>
@@ -123,7 +126,7 @@ export default function AllVenues() {
         <EditVenue
           venue={selectedVenue}
           onClose={closeEditModal}
-          onSave={handleSaveVenue}
+          onSave={()=>handleSaveVenue(selectedVenue)}
         />
       )}
 

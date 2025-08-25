@@ -24,7 +24,7 @@ const earningsTableData: IEarningTable[] = Array.from(
   (_, i) => ({
     "Serial ID": `${1223 + i}`,
     "Venue Name": "The Cafe Rio",
-    "Commission Earning": "example@gmail.com",
+    "Commission Earning": "$550.50",
     "Transaction ID": "TNX12094546",
     Date: new Date("jun 10, 2025"),
     action: {

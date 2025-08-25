@@ -11,7 +11,7 @@ interface OperatingHour {
 }
 
 interface FormData {
-    restaurantName: string;
+    restaurantName: VenueNameData;
     description: string;
     address: string;
     phoneNumber: string;
@@ -27,9 +27,15 @@ interface MenuItem {
 }
 
 // Interface matching your venue data structure
+
+interface VenueNameData {
+    name: string;
+    image: string;
+}
+
 interface IVenueTable {
     "Serial ID": string;
-    "Venue Name": string;
+    "Venue Name": VenueNameData;
     "Venue Type": string;
     "Location": string;
     "Menu Items": number;
@@ -197,7 +203,6 @@ const EditVenue: React.FC<EditVenueProps> = ({ venue, onClose, onSave }) => {
                                 id="restaurantName"
                                 name="restaurantName"
                                 placeholder="Enter Name"
-                                value={formData.restaurantName}
                                 onChange={handleInputChange}
                                 className="w-full p-3 rounded-lg bg-[#EFEFEF] text-[#2C2C2C]"
                             />

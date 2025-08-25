@@ -4,7 +4,7 @@ import Image from "next/image";
 
 export default function RecentActivity() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const modalRef = useRef(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   // Sample notifications data to match the component's structure
   const notifications = Array.from({ length: 15 }, (_, ind) => ({
@@ -19,8 +19,8 @@ export default function RecentActivity() {
   };
 
   // Handle click outside modal to close it
-  const handleOutsideClick = (e) => {
-    if (modalRef.current && !modalRef.current.contains(e.target)) {
+  const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
       setIsModalOpen(false);
     }
   };

@@ -25,7 +25,7 @@ export default function AllUser() {
   const [isBlockModalOpen, setIsBlockModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<IUserTable | null>(null);
-  const modalRef = useRef(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const handleBlockClick = (user: IUserTable) => {
     setSelectedUser(user);
@@ -43,13 +43,13 @@ export default function AllUser() {
     setSelectedUser(null);
   };
 
-  const handleOutsideClick = (event: React.MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
+  const handleOutsideClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
       closeModal();
     }
   };
 
-  const allUserTableData: IUserTable[] = Array.from({ length: 60}, (_, i) => ({
+  const allUserTableData: IUserTable[] = Array.from({ length: 60 }, (_, i) => ({
     "Serial ID": `${1223 + i}`,
     Name: "John Doe",
     Email: "example@gmail.com",
@@ -91,7 +91,7 @@ export default function AllUser() {
                 width={150}
                 height={100}
                 className="rounded-xl mx-auto mb-4 object-fill"
-                />
+              />
               <p className="font-semibold text-[#FF6F61]"> {selectedUser.Name}</p>
             </div>
             <div className="text-sm text-gray-600 mb-6">

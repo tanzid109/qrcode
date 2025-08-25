@@ -25,7 +25,7 @@ export default function AllUser() {
   const [isBlockModalOpen, setIsBlockModalOpen] = useState(false);
   const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
   const [selectedUser, setSelectedUser] = useState<IUserTable | null>(null);
-  const modalRef = useRef(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const handleBlockClick = (user: IUserTable) => {
     setSelectedUser(user);
@@ -43,8 +43,8 @@ export default function AllUser() {
     setSelectedUser(null);
   };
 
-  const handleOutsideClick = (event: React.MouseEvent) => {
-    if (modalRef.current && !modalRef.current.contains(event.target)) {
+  const handleOutsideClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
       closeModal();
     }
   };

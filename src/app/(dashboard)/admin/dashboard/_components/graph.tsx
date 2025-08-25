@@ -7,6 +7,7 @@ import {
   LineElement,
   Tooltip,
   Legend,
+  TooltipItem,
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import React from "react";
@@ -78,22 +79,22 @@ const options = {
       borderWidth: 1,
       titleColor: "#9ca3af",
       bodyColor: "#111827",
-      titleAlign: "center",
+      titleAlign: "center" as const,
       padding: 12,
       cornerRadius: 8,
       displayColors: true,
       usePointStyle: true,
       callbacks: {
-        title: (tooltipItems) => {
+        title: (tooltipItems: TooltipItem<'line'>[]) => {
           // Example date mapping
           const month = tooltipItems[0].label;
           return `${month} 14, 2030`; // Replace with real date mapping if needed
         },
-        label: (tooltipItem) => {
+        label: (tooltipItem: TooltipItem<'line'>) => {
           const value = tooltipItem.formattedValue;
           return ` ${value}`;
         },
-        labelTextColor: (tooltipItem) => {
+        labelTextColor: (tooltipItem: TooltipItem<'line'>) => {
           return tooltipItem.dataset.borderColor as string;
         },
       },
@@ -118,7 +119,6 @@ const options = {
     },
   },
 };
-
 
 export default function Graph() {
   return (

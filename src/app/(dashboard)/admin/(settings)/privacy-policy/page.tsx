@@ -1,7 +1,10 @@
 "use client";
-import React, { useRef, useMemo } from 'react';
-import JoditEditor from 'jodit-react';
-import './jodit-custom.css';
+import React, { useRef, useMemo } from "react";
+import dynamic from "next/dynamic";
+import "./jodit-custom.css";
+
+// Dynamically import JoditEditor to prevent SSR issues
+const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
 
 const PrivacyPolicy: React.FC = () => {
   const editor = useRef(null);
@@ -14,20 +17,9 @@ const PrivacyPolicy: React.FC = () => {
       spellcheck: false,
       toolbarAdaptive: false,
       toolbarSticky: false,
-      buttons: [
-        'fontsize',
-        'bold',
-        'italic',
-        'underline',
-        'align',
-        'outdent',
-        'indent',
-      ],
-      height: '500px',
-      width: '100%',
-      defaultActionOnPaste: 'insert_as_html',
-
-      // Hide bottom status bar
+      buttons: ["fontsize", "bold", "italic", "underline", "align", "outdent", "indent"],
+      height: 500,
+      width: "100%",
       showCharsCounter: false,
       showWordsCounter: false,
       showXPathInStatusbar: false,
@@ -36,17 +28,14 @@ const PrivacyPolicy: React.FC = () => {
     []
   );
 
-
   return (
     <div className="container mx-auto p-6 min-h-screen">
       <h1 className="text-3xl font-bold mb-4">Privacy Policy</h1>
-      <div className="">
-        <JoditEditor ref={editor} config={joditConfig} value={initialContent} className=''/>
+      <div>
+        <JoditEditor ref={editor} config={joditConfig} value={initialContent} />
       </div>
       <div className="relative mt-4">
-        <button className="w-full bg-[#FF6F61] text-white py-2 rounded mt-5">
-          Save
-        </button>
+        <button className="w-full bg-[#FF6F61] text-white py-2 rounded mt-5">Save</button>
       </div>
     </div>
   );

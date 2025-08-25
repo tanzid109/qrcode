@@ -26,11 +26,8 @@ interface MenuItem {
     price: string;
 }
 
-interface EditProfileManagementProps {
-    onBackClick: () => void;
-}
 
-const Addvenu: React.FC<EditProfileManagementProps> = ({ onBackClick }) => {
+const Addvenu = () => {
     // --- State: form + hours (Sun..Sat so Sunday/Monday checkboxes work cleanly) ---
     const [formData, setFormData] = useState<FormData>({
         restaurantName: "",
@@ -110,10 +107,13 @@ const Addvenu: React.FC<EditProfileManagementProps> = ({ onBackClick }) => {
         field: keyof MenuItem,
         value: string
     ) => {
-        const next = [...menuItems];
-        next[index][field] = value;
-        setMenuItems(next);
+        setMenuItems((prev) => {
+            const next = [...prev];
+            next[index] = { ...next[index], [field]: value };
+            return next;
+        });
     };
+
 
     const addMenuItem = () => {
         setMenuItems((prev) => [...prev, { name: "", description: "", price: "" }]);
@@ -128,7 +128,6 @@ const Addvenu: React.FC<EditProfileManagementProps> = ({ onBackClick }) => {
         console.log("Saving changes:", formData);
         console.log("Uploaded images:", uploadedImages);
         console.log("Menu items:", menuItems);
-        onBackClick();
     };
 
     // --- JSX ---
@@ -213,13 +212,13 @@ const Addvenu: React.FC<EditProfileManagementProps> = ({ onBackClick }) => {
                             className="w-full p-3 rounded-lg bg-[#EFEFEF] text-[#2C2C2C]"
                         />
                     </div>
-                    {/* venue password */}
+                    {/* Venue Password */}
                     <div>
                         <label
-                            htmlFor="email"
+                            htmlFor="password"
                             className="block text-[#2C2C2C] text-sm font-bold my-2"
                         >
-                            Venue Email
+                            Venue Password
                         </label>
                         <input
                             type="password"
@@ -231,6 +230,8 @@ const Addvenu: React.FC<EditProfileManagementProps> = ({ onBackClick }) => {
                             className="w-full p-3 rounded-lg bg-[#EFEFEF] text-[#2C2C2C]"
                         />
                     </div>
+
+
 
                     {/* Upload Image */}
                     <div>
@@ -247,7 +248,7 @@ const Addvenu: React.FC<EditProfileManagementProps> = ({ onBackClick }) => {
                                         src={uploadedImages[0]}
                                         alt="Uploaded Preview"
                                         fill
-                                        className="absolute inset-0 w-full h-full object-cover rounded-lg"
+                                        className="object-cover rounded-lg"
                                     />
                                 ) : (
                                     <>
@@ -496,7 +497,6 @@ const Addvenu: React.FC<EditProfileManagementProps> = ({ onBackClick }) => {
                             Add
                         </button>
                         <button
-                            onClick={onBackClick}
                             type="button"
                             className="w-full rounded-lg border text-black py-2 font-medium hover:bg-[#FF3A3A] hover:text-white "
                         >

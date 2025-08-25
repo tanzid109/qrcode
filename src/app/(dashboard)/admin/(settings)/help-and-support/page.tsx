@@ -1,9 +1,12 @@
 "use client";
 import React, { useRef, useMemo } from "react";
-import JoditEditor from "jodit-react";
+import dynamic from "next/dynamic";
 import "./jodit-custom.css";
 
-const HeyKindEditor: React.FC = () => {
+// Dynamically import JoditEditor to prevent SSR issues
+const JoditEditor = dynamic(() => import("jodit-react"), { ssr: false });
+
+const HelpAndSupport: React.FC = () => {
   const editor = useRef(null);
 
   const initialContent = `
@@ -34,14 +37,13 @@ const HeyKindEditor: React.FC = () => {
         "outdent",
         "indent",
         "|",
-        "image"
+        "image",
       ],
       uploader: {
         insertImageAsBase64URI: true, // store images as Base64 directly
       },
       height: 500,
       width: "100%",
-      defaultActionOnPaste: "insert_as_html",
       showCharsCounter: false,
       showWordsCounter: false,
       showXPathInStatusbar: false,
@@ -51,14 +53,10 @@ const HeyKindEditor: React.FC = () => {
   );
 
   return (
-    <div className="border border-blue-400 rounded-lg p-4 bg-white">
-      <JoditEditor
-        ref={editor}
-        config={joditConfig}
-        value={initialContent}
-      />
+    <div className="border rounded-lg p-4 bg-white">
+      <JoditEditor ref={editor} config={joditConfig} value={initialContent} />
     </div>
   );
 };
 
-export default HeyKindEditor;
+export default HelpAndSupport;
