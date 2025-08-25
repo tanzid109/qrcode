@@ -34,7 +34,7 @@ interface IVenueTable {
     "Location": string;
     "Menu Items": number;
     action: {
-        events: any[];
+        events: unknown[];
     };
 }
 
