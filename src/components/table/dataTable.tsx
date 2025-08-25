@@ -139,7 +139,7 @@ export default function DataTable<T extends DataRow>({ data }: { data: T[] }) {
               {tableHeader.map((key) => (
                 <td
                   key={key}
-                  className={`text-base text-[#2C2C2C] leading-[24px] px-6 py-8 ${key === "Venue Name" ? "text-left" : ""
+                  className={`text-base text-[#2C2C2C] leading-[24px] px-6 py-8 ${key === "Venue Name" ? "text-center" : ""
                     } ${key.toLowerCase().includes("serial") ? "font-medium" : "font-bold"}`}
                 >
                   {renderCell(row[key], key)}
