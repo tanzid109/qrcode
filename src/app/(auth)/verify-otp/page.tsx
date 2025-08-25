@@ -2,7 +2,6 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import VerifyOtpForm from "./_components/verifyOtpForm";
-import Okl from "./_components/okl";
 
 export default function VerifyOtpPage() {
   return (
@@ -25,10 +24,7 @@ export default function VerifyOtpPage() {
           </h1>
         </div>
       </div>
-
-      {/* <VerifyOtpForm /> */}
-      <Okl/>
-
+      <VerifyOtpForm />
       <div className="flex gap-1 text-[14px] font-normal leading-5">
         <p className="text-[#667085]">Didn’t receive the email?</p>
         <button className="cursor-pointer">Click to resend</button>
