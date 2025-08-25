@@ -1,7 +1,7 @@
 "use client";
 import FormField from "@/utils/FormField";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useRef } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 
 export type TVerifyOtp = {
@@ -21,21 +21,35 @@ export default function VerifyOtpForm() {
       otp3: "",
     },
   });
-  const {
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
+
+  const { handleSubmit, formState: { isSubmitting } } = methods;
+  const inputsRef = useRef<(HTMLInputElement | null)[]>([]);
 
   const onSubmit = async (data: TVerifyOtp) => {
-    console.log(data);
+    console.log("OTP Submitted:", data);
     router.push("/reset-password");
+  };
+
+  const handleKeyUp = (
+    e: React.KeyboardEvent<HTMLInputElement>,
+    index: number
+  ) => {
+    const value = e.currentTarget.value;
+
+    if (/^[0-9]$/.test(value) && index < inputsRef.current.length - 1) {
+      inputsRef.current[index + 1]?.focus();
+    }
+
+    if (e.key === "Backspace" && !value && index > 0) {
+      inputsRef.current[index - 1]?.focus();
+    }
   };
 
   return (
     <FormProvider {...methods}>
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-[22px] w-[360px] "
+        className="flex flex-col gap-[22px] w-[360px]"
       >
         <section className="flex justify-between">
           {Array.from({ length: 4 }).map((_, ind) => (
@@ -43,15 +57,20 @@ export default function VerifyOtpForm() {
               key={ind}
               name={`otp${ind}`}
               type="text"
+              inputMode="numeric"
+              maxLength={1}
               inputCls="h-20 w-20 flex justify-center items-center p-2 rounded-lg bg-[#EFEFEF]"
               innerInputCls="text-5xl font-normal outline-none text-center w-full h-full"
-              registerLogic={{
-                maxLength: 1,
-                pattern: /^[0-9]$/,
+              registerLogic={{}}
+              ref={(el) => {
+                inputsRef.current[ind] = el;
               }}
+              onKeyUp={(e) => handleKeyUp(e, ind)}
             />
           ))}
+
         </section>
+
         <button
           type="submit"
           disabled={isSubmitting}
