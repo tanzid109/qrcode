@@ -76,8 +76,9 @@ const TransactionModal: React.FC<{
   const transactions = generateTransactionData(row.serialId);
 
   return (
-    <div className="fixed inset-0 z-50 flex justify-center items-center bg-black bg-opacity-50">
-      <div className="bg-gray-50 text-black rounded-lg p-4 w-7/12 mx-auto shadow-2xl border border-gray-700 max-h-[80vh] overflow-y-auto">
+    <div className="fixed inset-0 z-50  flex justify-center items-center">
+      <div className="absolute inset-0 bg-black opacity-50"></div>
+      <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-5xl relative">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-bold">Transaction Details</h2>
           <button onClick={onClose} className="text-black hover:text-gray-800">
@@ -300,4 +301,3 @@ export const VenuesWallet: React.FC<{ commissionRate: number }> = ({ commissionR
   );
 };
 
-// Main Page Component
